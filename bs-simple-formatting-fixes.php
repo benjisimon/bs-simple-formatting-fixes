@@ -19,7 +19,9 @@ add_filter('the_content', function($content) {
 
   $render_youtube = function($url) {
     $code = preg_replace('/^.*v=/', '', $url);
-    return "<iframe width='560' height='315' src='https://www.youtube.com/embed/$code' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>";
+    $player = "<iframe width='560' height='315' src='https://www.youtube.com/embed/$code' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>";
+    $caption = "<div><a target='_blank' href='$url'>(Watch on YouTube)</a></div>";
+    return "$player\n$caption";
   };
 
 
