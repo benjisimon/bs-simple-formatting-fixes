@@ -18,12 +18,17 @@ add_filter('the_content', function($content) {
   };
 
   $render_youtube = function($url) {
-    $code = preg_replace('/^.*v=/', '', $url);
-    $player = "<iframe width='560' height='315' src='https://www.youtube.com/embed/$code' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>";
-    $caption = "<div><a target='_blank' href='$url'>(Watch on YouTube)</a></div>";
-    return "$player\n$caption";
-  };
+    $parsed_url = parse_url($url);
+    parse_str($parsed_url['query'], $query_params);
+    $code = $query_params['v'] ?? false;
+    if($code) {
+      $player = "<a href='$url' target='_blank'><img style='border: 1px dotted #2d3642; border-radius: .25em' width='512' src='https://img.youtube.com/vi/$code/maxresdefault.jpg'/></a>";
+      $caption = "<div><a target='_blank' href='$url'>(Click to watch video)</a></div>";
+      return "<div style='margin: .5em 0'>$player\n$caption</div>";
+    }
 
+    return $url;
+  };
 
   $callback = function($matches) use($render_img, $render_a, $render_youtube) {
     $prefix = $matches[1];
@@ -47,5 +52,7 @@ add_filter('the_content', function($content) {
 
 
 
-  return preg_replace_callback('/(.)?(http.*?)([\'"< ]|$)/', $callback, $content);
+  return preg_replace_callback('/(.)?(http.*?)([\'"< ]|$)/m', $callback, $content);
 });
+
+remove_filter( 'the_content', array( $GLOBALS['wp_embed'], 'autoembed' ), 8 );
