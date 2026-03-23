@@ -27,7 +27,7 @@ add_filter('the_content', function($content) {
       $play_icon = file_get_contents(__DIR__ . "/icons/play.svg");
       $player = "<a href='$url' target='_blank' style='position: relative; display: block'>" .
                 "<div style='height: 80px; width: 80px; position: absolute; left: 216px; top: 104px'>$play_icon</div>" .
-                "<img style='border: 1px dotted #2d3642; border-radius: .25em' width='512' src='https://img.youtube.com/vi/$code/maxresdefault.jpg'/>" .
+                "<img style='border: 1px dotted #2d3642; border-radius: .25em' width='512' src='https://img.youtube.com/vi/$code/hqdefault.jpg'/>" .
                 "</a>";
       $caption = "<div><a target='_blank' href='$url'>(Click to watch video)</a></div>";
       return "<div style='margin: .5em 0'>$player\n$caption</div>";
